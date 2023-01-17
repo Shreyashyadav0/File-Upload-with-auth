@@ -1,7 +1,7 @@
 const { Sequelize} = require ('sequelize'); // this is class 
 
 const createDB = new Sequelize('test-db', 'user', 'pass',{ // this is object 
-    dialect: 'splite',
+    dialect: 'sqlite',
     host: './config/db.splite',
      
 });
