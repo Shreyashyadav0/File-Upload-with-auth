@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 const isAuthenticated = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader) {
       return res.status(401).json({
         err: "You must be logged in",
@@ -19,14 +19,14 @@ const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    const decoded = jwt.verify(token, "");
+    const decoded = jwt.verify(token, SECRET);
     const user = await User.findOne({ where: { id: decoded.user.id } });
 
     if (!user) {
       return res.status(404).json({ err: "User not found" });
     }
 
-    req.user = user;
+    req.user = user.dataValues;
     next();
   } catch (err) {
     console.log(err);
@@ -37,16 +37,7 @@ const isAuthenticated = async (req, res, next) => {
 };
 
 const isSeller = (req, res, next) => {
-  if (req.user.dataValues.isSeller) {
-    next();
-  } else {
-    res.status(401).json({
-      err: "You are not a seller",
-    });
-  }
-};
-const isBuyer = (req, res, next) => {
-  if (!req.user.dataValues.isSeller) {
+  if (req.user.isSeller) {
     next();
   } else {
     res.status(401).json({
@@ -55,4 +46,15 @@ const isBuyer = (req, res, next) => {
   }
 };
 
-module.exports = { isAuthenticated, isSeller , isBuyer};
+// Added a new middleware to check if the user is a buyer
+const isBuyer = (req, res, next) => {
+  if (!req.user.dataValues.isSeller) {
+    next();
+  } else {
+    res.status(401).json({
+      err: "You are not a buyer",
+    });
+  }
+};
+
+module.exports = { isAuthenticated, isSeller, isBuyer };
