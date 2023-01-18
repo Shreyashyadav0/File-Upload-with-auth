@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const uploadContent = require("../utils/fileUpload");
 const Product = require("../models/productModel");
-const { isAuthenticated, isSeller } = require("../middlewares/auth");
+const { isAuthenticated, isSeller, isBuyer } = require("../middlewares/auth");
 
 router.post("/create", isAuthenticated, isSeller, (req, res) => {
   uploadContent(req, res, async (err) => {
@@ -43,5 +43,23 @@ router.get("/get/all", isAuthenticated, async (_req, res) => {
     return res.status(500).json({ err: err.message });
   }
 });
+
+router.post('/buy/:productID', isAuthenticated, isBuyer, async (req,res) =>{
+try{
+  const  product  = await Product.findOne({
+    where:{ id: req.params.productID }
+  })?.dataValues;
+
+  if(!product){
+    return res.status(404).json({ err: " No poduct found"})
+  }
+ const orderDetails ={
+   
+ }
+} catch(e){
+  return res.status(500).json({ err: e});
+}
+}
+)  
 
 module.exports = router;

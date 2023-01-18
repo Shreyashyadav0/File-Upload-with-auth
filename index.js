@@ -13,7 +13,7 @@ app.use(express.urlencoded({extends: false}));
 app.use ('/api/v1/user',userRoutes)
 app.use ('/api/v1/product', productRoutes)
 
-const PORT = 1342;
+const PORT = 1344;
 app.listen(PORT, () =>{
     console.log('Server is running');
     connectDB();

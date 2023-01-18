@@ -14,4 +14,11 @@ const connectDB= () =>{
         console.log('db connection is failed',e);
     })
 }
+const userModel = require('../models/userModel');
+const orderModel = require('../models/orderModel');
+
+orderModel.belongsTo(userModel, {foreignKey: "buyerId"});
+UserModel.hasMany(orderModel, { foreignKey: "id"});
+
+
 module.exports = {createDB, connectDB};

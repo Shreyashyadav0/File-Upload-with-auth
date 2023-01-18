@@ -53,7 +53,7 @@ router.post("/signin", async (req, res) => {
     try {
       const { email, password } = req.body; //* destructuring email and password out of the request body
   
-      if (email.length === 0) {
+      if (email.length === 0) { console.log(email)
         return res.status(400).json({ err: "Please enter your email" });
       }
       if (password.length === 0) {

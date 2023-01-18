@@ -19,7 +19,7 @@ const isAuthenticated = async (req, res, next) => {
       });
     }
 
-    const decoded = jwt.verify(token, "Message");
+    const decoded = jwt.verify(token, "");
     const user = await User.findOne({ where: { id: decoded.user.id } });
 
     if (!user) {
@@ -45,5 +45,14 @@ const isSeller = (req, res, next) => {
     });
   }
 };
+const isBuyer = (req, res, next) => {
+  if (!req.user.dataValues.isSeller) {
+    next();
+  } else {
+    res.status(401).json({
+      err: "You are not a seller",
+    });
+  }
+};
 
-module.exports = { isAuthenticated, isSeller };
+module.exports = { isAuthenticated, isSeller , isBuyer};
