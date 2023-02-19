@@ -30,4 +30,4 @@ lets get coding
 key install the stripe then we take the cvc and other detiaols 
 of the user then we verify it 
 now we have something called webhooks where we have hooks for all the websites like whatsapp and discord where we can send the message directly
-we will use discord here we will simply go to id then profile then orfer the webhook then copy the url 
+we will use discord here we will simply go to id then profile then order the webhook then copy the url 
